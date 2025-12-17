@@ -46,12 +46,12 @@
                 {% if user.is_authenticated %}
                     {% if has_applied %}
                         <div class="alert alert-success">You have already applied for this job.</div>
-                        <a href="{% url 'my_applications' %}" class="btn btn-primary">View My Applications</a>
+                        <a href="{% url 'job_resume:my_applications' %}" class="btn btn-primary">View My Applications</a>
                     {% else %}
-                        <a href="{% url 'apply_job' job.id %}" class="btn btn-success btn-lg">Apply Now</a>
+                        <a href="{% url 'job_resume:apply_job' job.id %}" class="btn btn-success btn-lg">Apply Now</a>
                     {% endif %}
                 {% else %}
-                    <div class="alert alert-info">Please <a href="{% url 'login' %}">login</a> to apply for this job.</div>
+                    <div class="alert alert-info">Please <a href="{% url 'job_resume:login' %}">login</a> to apply for this job.</div>
                 {% endif %}
             </div>
         </div>

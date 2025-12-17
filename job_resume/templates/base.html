@@ -12,33 +12,33 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Job Portal</a>
+            <a class="navbar-brand" href="{% url 'job_resume:home' %}">Job Portal</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'job_list' %}">Jobs</a>
+                        <a class="nav-link" href="{% url 'job_resume:job_list' %}">Jobs</a>
                     </li>
                     {% if user.is_authenticated %}
                         {% if user.role == 'employer' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'post_job' %}">Post Job</a>
+                                <a class="nav-link" href="{% url 'job_resume:post_job' %}">Post Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'my_jobs' %}">My Jobs</a>
+                                <a class="nav-link" href="{% url 'job_resume:my_jobs' %}">My Jobs</a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'resume_builder' %}">Resume Builder</a>
+                            <a class="nav-link" href="{% url 'job_resume:resume_builder' %}">Resume Builder</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'my_resumes' %}">My Resumes</a>
+                            <a class="nav-link" href="{% url 'job_resume:my_resumes' %}">My Resumes</a>
                         </li>
                         {% if user.role == 'admin' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_dashboard' %}">Admin</a>
+                                <a class="nav-link" href="{% url 'job_resume:admin_dashboard' %}">Admin</a>
                             </li>
                         {% endif %}
                     {% endif %}
@@ -50,17 +50,17 @@
                                 {{ user.username }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'my_applications' %}">My Applications</a></li>
+                                <li><a class="dropdown-item" href="{% url 'job_resume:my_applications' %}">My Applications</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'job_resume:logout' %}">Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'job_resume:login' %}">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            <a class="nav-link" href="{% url 'job_resume:register' %}">Register</a>
                         </li>
                     {% endif %}
                 </ul>
