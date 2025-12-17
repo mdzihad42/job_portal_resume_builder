@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Resume Builder{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/resume_builder.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>Resume Builder</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" id="resume-form">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Resume Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-danger">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Template Type</label>
+                        {{ form.template_type }}
+                        {% if form.template_type.errors %}
+                            <div class="text-danger">{{ form.template_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                            <div class="text-danger">{{ form.full_name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Phone</label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-danger">{{ form.phone.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        {{ form.address }}
+                        {% if form.address.errors %}
+                            <div class="text-danger">{{ form.address.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">LinkedIn</label>
+                                {{ form.linkedin }}
+                                {% if form.linkedin.errors %}
+                                    <div class="text-danger">{{ form.linkedin.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">GitHub</label>
+                                {{ form.github }}
+                                {% if form.github.errors %}
+                                    <div class="text-danger">{{ form.github.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Professional Summary</label>
+                        {{ form.summary }}
+                        {% if form.summary.errors %}
+                            <div class="text-danger">{{ form.summary.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Skills (comma-separated)</label>
+                        {{ form.skills }}
+                        {% if form.skills.errors %}
+                            <div class="text-danger">{{ form.skills.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Work Experience (JSON format)</label>
+                        {{ form.work_experience }}
+                        {% if form.work_experience.errors %}
+                            <div class="text-danger">{{ form.work_experience.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Education (JSON format)</label>
+                        {{ form.education }}
+                        {% if form.education.errors %}
+                            <div class="text-danger">{{ form.education.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Projects (JSON format)</label>
+                        {{ form.projects }}
+                        {% if form.projects.errors %}
+                            <div class="text-danger">{{ form.projects.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Certifications (JSON format)</label>
+                        {{ form.certifications }}
+                        {% if form.certifications.errors %}
+                            <div class="text-danger">{{ form.certifications.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Resume</button>
+                    {% if resume %}
+                        <a href="{% url 'resume_preview' resume.id %}" class="btn btn-secondary">Preview</a>
+                        <a href="{% url 'download_resume' resume.id %}" class="btn btn-success">Download PDF</a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Live Preview</h5>
+            </div>
+            <div class="card-body">
+                <div id="resume-preview" class="resume-preview">
+                    <!-- Preview will be updated via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

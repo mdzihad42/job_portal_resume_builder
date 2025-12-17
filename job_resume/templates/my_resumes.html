@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}My Resumes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">My Resumes</h2>
+            <a href="{% url 'resume_builder' %}" class="btn btn-primary mb-3">Create New Resume</a>
+            <div class="row">
+                {% for resume in resumes %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ resume.name }}</h5>
+                            <p class="card-text">Template: {{ resume.get_template_type_display }}</p>
+                            <p class="card-text">Created: {{ resume.created_at|date:"M d, Y" }}</p>
+                            <a href="{% url 'resume_preview' resume.id %}" class="btn btn-outline-primary btn-sm">Preview</a>
+                            <a href="{% url 'edit_resume' resume.id %}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a href="{% url 'download_resume' resume.id %}" class="btn btn-success btn-sm">Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p class="text-center">You haven't created any resumes yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+/* Custom styles for Job Portal & Resume Builder */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.form-control, .form-select {
+    border-radius: 5px;
+}
+
+.alert {
+    border-radius: 5px;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Resume Builder specific styles */
+.resume-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.resume-preview {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: white;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.skill-tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.section-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.drag-handle {
+    cursor: move;
+    color: #666;
+}
+
+.drag-handle:hover {
+    color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .resume-form {
+        padding: 1rem;
+    }
+}
+
+/* Job card styles */
+.job-card {
+    transition: transform 0.2s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badges */
+.badge {
+    font-size: 0.75rem;
+}
+
+.bg-applied { background-color: #ffc107 !important; }
+.bg-shortlisted { background-color: #17a2b8 !important; }
+.bg-rejected { background-color: #dc3545 !important; }
+.bg-hired { background-color: #28a745 !important; }
