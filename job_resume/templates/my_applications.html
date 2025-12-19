@@ -3,39 +3,59 @@
 {% block title %}My Applications{% endblock %}
 
 {% block content %}
-<h1>My Job Applications</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Job Title</th>
-                <th>Company</th>
-                <th>Location</th>
-                <th>Applied Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-                <tr>
-                    <td><a href="{% url 'job_resume:job_detail' application.job.id %}">{{ application.job.title }}</a></td>
-                    <td>{{ application.job.company }}</td>
-                    <td>{{ application.job.location }}</td>
-                    <td>{{ application.applied_at|date:"M d, Y" }}</td>
-                    <td>
-                        <span class="badge bg-{{ application.status|lower }}">{{ application.status }}</span>
-                    </td>
-                    <td>
-                        <a href="{% url 'job_resume:job_detail' application.job.id %}" class="btn btn-sm btn-primary">View Job</a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="6">You haven't applied for any jobs yet.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mt-5 fade-in-up">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mb-4 text-center"><i class="fas fa-clipboard-list me-2"></i>My Job Applications</h1>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th><i class="fas fa-tag me-1"></i>Job Title</th>
+                            <th><i class="fas fa-building me-1"></i>Company</th>
+                            <th><i class="fas fa-map-marker-alt me-1"></i>Location</th>
+                            <th><i class="fas fa-calendar-alt me-1"></i>Applied Date</th>
+                            <th><i class="fas fa-info-circle me-1"></i>Status</th>
+                            <th><i class="fas fa-cogs me-1"></i>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for application in applications %}
+                            <tr>
+                                <td><a href="{% url 'job_resume:job_detail' application.job.id %}" class="text-decoration-none">{{ application.job.title }}</a></td>
+                                <td>{{ application.job.company }}</td>
+                                <td>{{ application.job.location }}</td>
+                                <td>{{ application.applied_at|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if application.status == 'Applied' %}
+                                        <span class="badge bg-applied">{{ application.status }}</span>
+                                    {% elif application.status == 'Shortlisted' %}
+                                        <span class="badge bg-shortlisted">{{ application.status }}</span>
+                                    {% elif application.status == 'Rejected' %}
+                                        <span class="badge bg-rejected">{{ application.status }}</span>
+                                    {% elif application.status == 'Hired' %}
+                                        <span class="badge bg-hired">{{ application.status }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ application.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'job_resume:job_detail' application.job.id %}" class="btn btn-sm btn-primary"><i class="fas fa-eye me-1"></i>View Job</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                    <p class="text-muted">You haven't applied for any jobs yet.</p>
+                                    <a href="{% url 'job_resume:job_list' %}" class="btn btn-primary"><i class="fas fa-search me-1"></i>Browse Jobs</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

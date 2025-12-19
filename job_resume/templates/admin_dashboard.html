@@ -3,81 +3,88 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 fade-in-up">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="mb-4">Admin Dashboard</h2>
+            <h2 class="mb-4 text-center"><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="col-md-4 mb-4">
+                    <div class="card job-card fade-in-up">
+                        <div class="card-body text-center">
+                            <i class="fas fa-users fa-3x text-primary mb-3"></i>
                             <h5 class="card-title">Total Users</h5>
-                            <p class="card-text">{{ users|length }}</p>
+                            <p class="card-text display-4 fw-bold">{{ users|length }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="col-md-4 mb-4">
+                    <div class="card job-card fade-in-up">
+                        <div class="card-body text-center">
+                            <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
                             <h5 class="card-title">Total Jobs</h5>
-                            <p class="card-text">{{ jobs|length }}</p>
+                            <p class="card-text display-4 fw-bold">{{ jobs|length }}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="col-md-4 mb-4">
+                    <div class="card job-card fade-in-up">
+                        <div class="card-body text-center">
+                            <i class="fas fa-clipboard-list fa-3x text-info mb-3"></i>
                             <h5 class="card-title">Total Applications</h5>
-                            <p class="card-text">{{ applications|length }}</p>
+                            <p class="card-text display-4 fw-bold">{{ applications|length }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-4">
-                <h3>Recent Users</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Date Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.get_role_display }}</td>
-                            <td>{{ user.date_joined|date:"M d, Y" }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="mt-5 fade-in-up">
+                <h3 class="mb-3"><i class="fas fa-user-friends me-2"></i>Recent Users</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-user me-1"></i>Username</th>
+                                <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                <th><i class="fas fa-user-tag me-1"></i>Role</th>
+                                <th><i class="fas fa-calendar-alt me-1"></i>Date Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td><span class="badge bg-primary">{{ user.get_role_display }}</span></td>
+                                <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="mt-4">
-                <h3>Recent Jobs</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Company</th>
-                            <th>Location</th>
-                            <th>Posted By</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for job in jobs %}
-                        <tr>
-                            <td>{{ job.title }}</td>
-                            <td>{{ job.company }}</td>
-                            <td>{{ job.location }}</td>
-                            <td>{{ job.posted_by.username }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="mt-5 fade-in-up">
+                <h3 class="mb-3"><i class="fas fa-briefcase me-2"></i>Recent Jobs</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><i class="fas fa-tag me-1"></i>Title</th>
+                                <th><i class="fas fa-building me-1"></i>Company</th>
+                                <th><i class="fas fa-map-marker-alt me-1"></i>Location</th>
+                                <th><i class="fas fa-user-tie me-1"></i>Posted By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in jobs %}
+                            <tr>
+                                <td>{{ job.title }}</td>
+                                <td>{{ job.company }}</td>
+                                <td>{{ job.location }}</td>
+                                <td>{{ job.posted_by.username }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

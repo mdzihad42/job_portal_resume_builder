@@ -11,37 +11,37 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fade-in-up">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'job_resume:home' %}">Job Portal</a>
+            <a class="navbar-brand" href="{% url 'job_resume:home' %}"><i class="fas fa-briefcase me-2"></i>Job Portal</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'job_resume:job_list' %}">Jobs</a>
+                        <a class="nav-link" href="{% url 'job_resume:job_list' %}"><i class="fas fa-search me-1"></i>Jobs</a>
                     </li>
                     {% if user.is_authenticated %}
                         {% if user.role == 'employer' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'job_resume:post_job' %}">Post Job</a>
+                                <a class="nav-link" href="{% url 'job_resume:post_job' %}"><i class="fas fa-plus-circle me-1"></i>Post Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'job_resume:my_jobs' %}">My Jobs</a>
+                                <a class="nav-link" href="{% url 'job_resume:my_jobs' %}"><i class="fas fa-list me-1"></i>My Jobs</a>
                             </li>
                         {% endif %}
                         {% if user.role == 'job_seeker' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'job_resume:resume_builder' %}">Resume Builder</a>
+                                <a class="nav-link" href="{% url 'job_resume:resume_builder' %}"><i class="fas fa-file-alt me-1"></i>Resume Builder</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'job_resume:my_resumes' %}">My Resumes</a>
+                                <a class="nav-link" href="{% url 'job_resume:my_resumes' %}"><i class="fas fa-folder-open me-1"></i>My Resumes</a>
                             </li>
                         {% endif %}
                         {% if user.role == 'admin' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'job_resume:admin_dashboard' %}">Admin</a>
+                                <a class="nav-link" href="{% url 'job_resume:admin_dashboard' %}"><i class="fas fa-cog me-1"></i>Admin</a>
                             </li>
                         {% endif %}
                     {% endif %}
@@ -50,20 +50,20 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                {{ user.username }}
+                                <i class="fas fa-user me-1"></i>{{ user.username }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'job_resume:my_applications' %}">My Applications</a></li>
+                                <li><a class="dropdown-item" href="{% url 'job_resume:my_applications' %}"><i class="fas fa-clipboard-list me-1"></i>My Applications</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'job_resume:logout' %}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'job_resume:logout' %}"><i class="fas fa-sign-out-alt me-1"></i>Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'job_resume:login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'job_resume:login' %}"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'job_resume:register' %}">Register</a>
+                            <a class="nav-link" href="{% url 'job_resume:register' %}"><i class="fas fa-user-plus me-1"></i>Register</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -71,7 +71,7 @@
         </div>
     </nav>
 
-    <main class="container mt-4">
+    <main class="container mt-4 fade-in-up">
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -83,9 +83,10 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-dark text-light mt-5 py-4">
+    <footer class="bg-dark text-light mt-5 py-4 fade-in-up">
         <div class="container text-center">
-            <p>&copy; 2023 Job Portal & Resume Builder. All rights reserved.</p>
+            <p><i class="fas fa-copyright me-1"></i>&copy; 2023 Job Portal & Resume Builder. All rights reserved.</p>
+            <p class="mb-0"><small>Built with <i class="fas fa-heart text-danger"></i> for job seekers and employers</small></p>
         </div>
     </footer>
 

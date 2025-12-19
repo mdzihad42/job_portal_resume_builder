@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, FileExtensionValidator
 
 # Custom User model with roles
 class User(AbstractUser):
@@ -44,6 +44,9 @@ class Application(models.Model):
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
+    name = models.CharField(max_length=100, default='')
+    phone = models.CharField(max_length=20, default='')
+    cv_pdf = models.FileField(upload_to='applications/', validators=[FileExtensionValidator(allowed_extensions=['pdf'])], blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='applied')
     applied_at = models.DateTimeField(auto_now_add=True)
 

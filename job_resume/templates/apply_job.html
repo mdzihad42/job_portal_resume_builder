@@ -12,10 +12,10 @@
             <div class="card-body">
                 <p><strong>Company:</strong> {{ job.company }}</p>
                 <p><strong>Location:</strong> {{ job.location }}</p>
-                <p>Are you sure you want to apply for this job?</p>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-success">Confirm Application</button>
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Submit Application</button>
                     <a href="{% url 'job_resume:job_detail' job.id %}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>

@@ -229,6 +229,7 @@ footer {
 .badge {
     font-size: 0.75rem;
     border: 1px solid transparent;
+    color: #212529;
 }
 
 .bg-applied {
@@ -237,15 +238,15 @@ footer {
 }
 .bg-shortlisted {
     background: #17a2b8 !important;
-    color: var(--white) !important;
+    color: var(--text-dark) !important;
 }
 .bg-rejected {
     background: #dc3545 !important;
-    color: var(--white) !important;
+    color: var(--text-dark) !important;
 }
 .bg-hired {
     background: var(--secondary-green) !important;
-    color: var(--white) !important;
+    color: var(--text-dark) !important;
 }
 
 /* Scroll animations */
