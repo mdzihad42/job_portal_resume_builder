@@ -1,23 +1,16 @@
-# Role-Based Access Implementation
+# TODO: Implement DevJobs Theme for Job Portal & Resume Builder
 
-## Completed Tasks
-- [x] Create decorators.py with role_required, employer_required, admin_required, job_seeker_required decorators
-- [x] Import decorators in views.py
-- [x] Apply @employer_required to post_job, my_jobs, job_applications, update_application_status views
-- [x] Apply @admin_required to admin_dashboard, approve_job, reject_job, manage_users, change_user_role, analytics_dashboard views
-- [x] Apply @job_seeker_required to resume_builder, edit_resume, resume_preview, download_resume, my_resumes views
-- [x] Remove inline role checks from views
-- [x] Add status field to Job model for admin approval
-- [x] Update job_list view to filter jobs based on user role
-- [x] Add check in apply_job to only allow applications to approved jobs
-- [x] Add admin views for job approval/rejection, user management, analytics
-- [x] Add employer view for updating application status
-- [x] Update URLs for new admin and employer views
-- [x] Apply database migration for status field
+## Tasks
+- [ ] Update base style.css for DevJobs theme: clean, modern developer-focused design with blue primary (#007bff), green secondary (#28a745), white/light background, Inter/Poppins fonts
+- [ ] Customize navbar for sleek design with blue accents
+- [ ] Enhance button styles with blue and green effects
+- [ ] Improve card designs for cleanliness with subtle shadows and blue borders
+- [ ] Add subtle hover and scroll animations for interactive elements
+- [ ] Ensure UI remains minimal and readable across devices
+- [ ] Update resume templates (classic, modern, creative, executive) with DevJobs styling: A4 size, PDF/print optimization, blue highlights for name/title, clean underlines for headers, skill tags with blue borders
+- [ ] Add print styles for A4 PDF export and printing
+- [ ] Ensure resume builder supports multiple templates and easy customization
+- [ ] Test the theme by running the Django development server and verifying visual changes, including resume previews and print layouts
 
-## Summary
-Implemented comprehensive role-based access control based on user requirements:
-- **Admin**: Full access, manage users, approve/reject jobs, view analytics
-- **Employer**: Post/manage jobs, view applications for their jobs, update application status
-- **Job Seeker**: Browse approved jobs, apply, build/edit resumes
-- All role restrictions enforced using decorators for clean, maintainable code
+## Progress Tracking
+- Switching from CyberJobs to DevJobs theme. Starting updates.

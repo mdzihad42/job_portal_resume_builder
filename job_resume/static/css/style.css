@@ -1,52 +1,150 @@
-/* Custom styles for Job Portal & Resume Builder */
+/* Custom styles for Job Portal & Resume Builder - DevJobs Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-blue: #007bff;
+    --secondary-green: #28a745;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --light-gray: #e9ecef;
+    --dark-gray: #343a40;
+    --text-dark: #212529;
+    --text-muted: #6c757d;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-hover: 0 4px 8px rgba(0,0,0,0.15);
+}
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+    border-bottom: 1px solid var(--primary-blue);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .navbar-brand {
-    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
     font-size: 1.5rem;
+    color: var(--primary-blue) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-blue) !important;
+}
+
+.dropdown-menu {
+    background-color: var(--white);
+    border: 1px solid var(--light-gray);
+    box-shadow: var(--shadow);
+}
+
+.dropdown-item {
+    color: var(--text-dark) !important;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--light-bg);
+    color: var(--primary-blue) !important;
 }
 
 .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-blue);
 }
 
 .card-header {
-    background-color: #007bff;
-    color: white;
-    border-radius: 10px 10px 0 0 !important;
+    background: var(--primary-blue);
+    color: var(--white);
+    border-radius: 15px 15px 0 0 !important;
+    font-weight: 600;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background: var(--primary-blue);
+    border: none;
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background: var(--secondary-green);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    color: var(--white);
 }
 
 .table {
-    background-color: white;
+    background-color: var(--white);
     border-radius: 10px;
     overflow: hidden;
+    color: var(--text-dark);
+}
+
+.table th {
+    background-color: var(--light-gray);
+    border-color: var(--light-gray);
+    color: var(--text-dark);
+}
+
+.table td {
+    border-color: var(--light-gray);
 }
 
 .form-control, .form-select {
-    border-radius: 5px;
+    background-color: var(--white);
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: var(--white);
 }
 
 .alert {
-    border-radius: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--light-gray);
+    background-color: var(--white);
+    color: var(--text-dark);
 }
 
 footer {
+    background-color: var(--dark-gray);
+    border-top: 1px solid var(--light-gray);
+    color: var(--white);
     margin-top: auto;
 }
 
@@ -57,39 +155,48 @@ footer {
 }
 
 .resume-preview {
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
     padding: 20px;
-    background-color: white;
+    background-color: var(--white);
     max-height: 600px;
     overflow-y: auto;
+    box-shadow: var(--shadow);
 }
 
 .skill-tag {
     display: inline-block;
-    background-color: #007bff;
-    color: white;
+    background: var(--primary-blue);
+    color: var(--white);
     padding: 5px 10px;
     margin: 2px;
     border-radius: 20px;
     font-size: 0.8rem;
+    font-weight: 500;
 }
 
 .section-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
-    background-color: white;
+    background-color: var(--white);
+    transition: all 0.3s ease;
+}
+
+.section-card:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-hover);
 }
 
 .drag-handle {
     cursor: move;
-    color: #666;
+    color: var(--primary-blue);
+    transition: all 0.3s ease;
 }
 
 .drag-handle:hover {
-    color: #333;
+    color: var(--secondary-green);
 }
 
 /* Responsive design */
@@ -109,20 +216,68 @@ footer {
 
 /* Job card styles */
 .job-card {
-    transition: transform 0.2s;
+    transition: all 0.3s ease;
 }
 
 .job-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-blue);
 }
 
 /* Status badges */
 .badge {
     font-size: 0.75rem;
+    border: 1px solid transparent;
 }
 
-.bg-applied { background-color: #ffc107 !important; }
-.bg-shortlisted { background-color: #17a2b8 !important; }
-.bg-rejected { background-color: #dc3545 !important; }
-.bg-hired { background-color: #28a745 !important; }
+.bg-applied {
+    background: #ffc107 !important;
+    color: var(--text-dark) !important;
+}
+.bg-shortlisted {
+    background: #17a2b8 !important;
+    color: var(--white) !important;
+}
+.bg-rejected {
+    background: #dc3545 !important;
+    color: var(--white) !important;
+}
+.bg-hired {
+    background: var(--secondary-green) !important;
+    color: var(--white) !important;
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-cyan);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-magenta);
+}
