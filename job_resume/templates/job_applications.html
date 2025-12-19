@@ -25,14 +25,14 @@
                                 <tbody>
                                     {% for application in applications %}
                                         <tr>
-                                            <td>{{ application.user.get_full_name }}</td>
+                                            <td>{{ application.user.username }}</td>
                                             <td>{{ application.user.email }}</td>
                                             <td>
                                                 <span class="badge badge-{{ application.status|lower }}">
                                                     {{ application.status|title }}
                                                 </span>
                                             </td>
-                                            <td>{{ application.applied_date|date:"M d, Y" }}</td>
+                                            <td>{{ application.applied_at|date:"M d, Y" }}</td>
                                             <td>
                                                 <a href="{% url 'job_resume:update_application_status' application.id %}" class="btn btn-sm btn-primary">Update Status</a>
                                             </td>
