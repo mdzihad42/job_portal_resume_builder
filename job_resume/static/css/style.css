@@ -21,6 +21,7 @@ body {
     color: var(--text-dark);
     margin: 0;
     padding: 0;
+    margin-top: 90px;
     overflow-x: hidden;
 }
 
@@ -30,6 +31,10 @@ body {
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
 }
 
 .navbar-brand {
@@ -53,6 +58,7 @@ body {
     background-color: var(--white);
     border: 1px solid var(--light-gray);
     box-shadow: var(--shadow);
+    z-index: 10000;
 }
 
 .dropdown-item {
