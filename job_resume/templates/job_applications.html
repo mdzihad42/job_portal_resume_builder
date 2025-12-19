@@ -1,49 +1,52 @@
 {% extends 'base.html' %}
 
-{% block title %}Applications for {{ job.title }}{% endblock %}
-
 {% block content %}
-<h1>Applications for {{ job.title }}</h1>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Applicant</th>
-                <th>Email</th>
-                <th>Applied Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for application in applications %}
-                <tr>
-                    <td>{{ application.user.username }}</td>
-                    <td>{{ application.user.email }}</td>
-                    <td>{{ application.applied_at|date:"M d, Y" }}</td>
-                    <td>
-                        <span class="badge bg-{{ application.status|lower }}">{{ application.status }}</span>
-                    </td>
-                    <td>
-                        <form method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="application_id" value="{{ application.id }}">
-                            <select name="status" class="form-select form-select-sm d-inline-block w-auto">
-                                <option value="applied" {% if application.status == 'applied' %}selected{% endif %}>Applied</option>
-                                <option value="shortlisted" {% if application.status == 'shortlisted' %}selected{% endif %}>Shortlisted</option>
-                                <option value="rejected" {% if application.status == 'rejected' %}selected{% endif %}>Rejected</option>
-                                <option value="hired" {% if application.status == 'hired' %}selected{% endif %}>Hired</option>
-                            </select>
-                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                        </form>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="5">No applications yet.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Applications for: {{ job.title }}</h3>
+                    <a href="{% url 'job_resume:my_jobs' %}" class="btn btn-secondary">Back to My Jobs</a>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Applicant Name</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Applied Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in applications %}
+                                        <tr>
+                                            <td>{{ application.user.get_full_name }}</td>
+                                            <td>{{ application.user.email }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ application.status|lower }}">
+                                                    {{ application.status|title }}
+                                                </span>
+                                            </td>
+                                            <td>{{ application.applied_date|date:"M d, Y" }}</td>
+                                            <td>
+                                                <a href="{% url 'job_resume:update_application_status' application.id %}" class="btn btn-sm btn-primary">Update Status</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-center">No applications received for this job yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

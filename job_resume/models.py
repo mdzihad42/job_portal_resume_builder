@@ -16,12 +16,18 @@ class User(AbstractUser):
 
 # Job model
 class Job(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
     title = models.CharField(max_length=200)
     description = models.TextField()
     company = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_jobs')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -74,16 +80,16 @@ class Resume(models.Model):
     skills = models.JSONField(default=list)  # List of skills
 
     # Work Experience
-    work_experience = models.JSONField(default=list)  # List of dicts with company, position, dates, description
+    work_experience = models.TextField(blank=True)
 
     # Education
-    education = models.JSONField(default=list)  # List of dicts with institution, degree, dates
+    education = models.TextField(blank=True)
 
     # Projects
-    projects = models.JSONField(default=list)  # List of dicts with name, description, technologies
+    projects = models.TextField(blank=True)
 
     # Certifications
-    certifications = models.JSONField(default=list)  # List of dicts with name, issuer, date
+    certifications = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -15,7 +15,7 @@
                     {% if job.salary %}
                         <p class="text-success">${{ job.salary }}</p>
                     {% endif %}
-                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary">View Details</a>
+                    <a href="{% url 'job_resume:job_detail' job.id %}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>

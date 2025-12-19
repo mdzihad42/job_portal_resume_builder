@@ -10,7 +10,7 @@
         <a href="{% url 'job_resume:register' %}" class="btn btn-light btn-lg">Get Started</a>
     {% else %}
         <a href="{% url 'job_resume:job_list' %}" class="btn btn-light btn-lg">Browse Jobs</a>
-        <a href="{% url 'resume_builder' %}" class="btn btn-outline-light btn-lg ms-2">Build Resume</a>
+        <a href="{% url 'job_resume:resume_builder' %}" class="btn btn-outline-light btn-lg ms-2">Build Resume</a>
     {% endif %}
 </div>
 

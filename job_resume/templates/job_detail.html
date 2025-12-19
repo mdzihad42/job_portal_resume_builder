@@ -59,7 +59,7 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <h5>Employer Actions</h5>
-                    <a href="{% url 'job_applications' job.id %}" class="btn btn-info">View Applications</a>
+                    <a href="{% url 'job_resume:job_applications' job.id %}" class="btn btn-info">View Applications</a>
                 </div>
             </div>
         {% endif %}

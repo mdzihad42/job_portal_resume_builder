@@ -19,7 +19,7 @@
         <tbody>
             {% for application in applications %}
                 <tr>
-                    <td><a href="{% url 'job_detail' application.job.id %}">{{ application.job.title }}</a></td>
+                    <td><a href="{% url 'job_resume:job_detail' application.job.id %}">{{ application.job.title }}</a></td>
                     <td>{{ application.job.company }}</td>
                     <td>{{ application.job.location }}</td>
                     <td>{{ application.applied_at|date:"M d, Y" }}</td>
@@ -27,7 +27,7 @@
                         <span class="badge bg-{{ application.status|lower }}">{{ application.status }}</span>
                     </td>
                     <td>
-                        <a href="{% url 'job_detail' application.job.id %}" class="btn btn-sm btn-primary">View Job</a>
+                        <a href="{% url 'job_resume:job_detail' application.job.id %}" class="btn btn-sm btn-primary">View Job</a>
                     </td>
                 </tr>
             {% empty %}

@@ -123,8 +123,8 @@
                         {% endif %}
                     </div>
                     <button type="submit" class="btn btn-primary">Update Resume</button>
-                    <a href="{% url 'resume_preview' resume.id %}" class="btn btn-secondary">Preview</a>
-                    <a href="{% url 'download_resume' resume.id %}" class="btn btn-success">Download PDF</a>
+                    <a href="{% url 'job_resume:resume_preview' resume.id %}" class="btn btn-secondary">Preview</a>
+                    <a href="{% url 'job_resume:download_resume' resume.id %}" class="btn btn-success">Download PDF</a>
                 </form>
             </div>
         </div>
