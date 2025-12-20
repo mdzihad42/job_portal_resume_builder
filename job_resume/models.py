@@ -14,6 +14,44 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+# User Profile model for additional user information
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+
+    # Personal Information
+    full_name = models.CharField(max_length=100, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address = models.TextField(blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+
+    # Professional Information
+    bio = models.TextField(blank=True, help_text="Brief professional summary")
+    linkedin_url = models.URLField(blank=True)
+    github_url = models.URLField(blank=True)
+    portfolio_url = models.URLField(blank=True)
+
+    # Company Information (for employers)
+    company_name = models.CharField(max_length=100, blank=True)
+    company_website = models.URLField(blank=True)
+    company_description = models.TextField(blank=True)
+
+    # Profile Picture
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+
+    # Preferences
+    email_notifications = models.BooleanField(default=True)
+    profile_visibility = models.BooleanField(default=True, help_text="Make profile visible to other users")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+    @property
+    def display_name(self):
+        return self.full_name or self.user.get_full_name() or self.user.username
+
 # Job model
 class Job(models.Model):
     STATUS_CHOICES = [

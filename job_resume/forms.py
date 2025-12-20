@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User, Job, Resume
+from .models import User, Job, Resume, Application, UserProfile
 import json
 
 class UserRegistrationForm(UserCreationForm):
@@ -15,6 +15,22 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description', 'company', 'location', 'salary']
+
+class JobApplicationForm(forms.ModelForm):
+    cv_pdf = forms.FileField(
+        required=True,
+        label="Upload CV (PDF only)",
+        help_text="Please upload your CV in PDF format",
+        widget=forms.FileInput(attrs={'accept': '.pdf'})
+    )
+
+    class Meta:
+        model = Application
+        fields = ['name', 'phone', 'cv_pdf']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Enter your full name'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'Enter your phone number'}),
+        }
 
 class ResumeForm(forms.ModelForm):
     skills = forms.CharField(widget=forms.Textarea, help_text="Enter skills separated by commas")
@@ -39,5 +55,17 @@ class ResumeForm(forms.ModelForm):
     def clean_skills(self):
         skills = self.cleaned_data['skills']
         return [skill.strip() for skill in skills.split(',') if skill.strip()]
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['full_name', 'phone', 'address', 'date_of_birth', 'bio', 'linkedin_url', 'github_url', 'portfolio_url', 'company_name', 'company_website', 'company_description', 'profile_picture', 'email_notifications', 'profile_visibility']
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'bio': forms.Textarea(attrs={'rows': 3}),
+            'company_description': forms.Textarea(attrs={'rows': 3}),
+        }
+
+
 
 

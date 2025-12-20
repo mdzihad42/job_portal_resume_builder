@@ -36,4 +36,7 @@ urlpatterns = [
     path('manage-users/', views.manage_users, name='manage_users'),
     path('change-user-role/<int:user_id>/', views.change_user_role, name='change_user_role'),
     path('analytics-dashboard/', views.analytics_dashboard, name='analytics_dashboard'),
+
+    # User Profile
+    path('profile/', views.user_profile, name='user_profile'),
 ]

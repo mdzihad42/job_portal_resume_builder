@@ -5,9 +5,10 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.db.models import Q
 import json
-from .models import User, Job, Application, Resume
-from .forms import UserRegistrationForm, JobForm, ResumeForm
+from .models import User, Job, Application, Resume, UserProfile
+from .forms import UserRegistrationForm, JobForm, ResumeForm, JobApplicationForm, UserProfileForm
 from .decorators import employer_required, admin_required, job_seeker_required
 
 # Authentication Views
@@ -57,13 +58,21 @@ def home(request):
 
 @login_required
 def job_list(request):
+    query = request.GET.get('q', '')
     if request.user.role == 'admin':
         jobs = Job.objects.all()
     elif request.user.role == 'employer':
         jobs = Job.objects.filter(posted_by=request.user)
     else:  # job_seeker
         jobs = Job.objects.all()
-    return render(request, 'job_list.html', {'jobs': jobs})
+        if query:
+            jobs = jobs.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query) |
+                Q(company__icontains=query) |
+                Q(location__icontains=query)
+            )
+    return render(request, 'job_list.html', {'jobs': jobs, 'query': query})
 
 @login_required
 def job_detail(request, job_id):
@@ -76,10 +85,19 @@ def job_detail(request, job_id):
 def apply_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     if request.method == 'POST':
-        Application.objects.create(user=request.user, job=job)
-        messages.success(request, 'Application submitted successfully!')
-        return redirect('job_resume:my_applications')
-    return render(request, 'apply_job.html', {'job': job})
+        form = JobApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.user = request.user
+            application.job = job
+            application.save()
+            messages.success(request, 'Application submitted successfully!')
+            return redirect('job_resume:my_applications')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = JobApplicationForm()
+    return render(request, 'apply_job.html', {'job': job, 'form': form})
 
 @login_required
 @job_seeker_required
@@ -183,6 +201,27 @@ def download_resume(request, resume_id):
 def my_resumes(request):
     resumes = Resume.objects.filter(user=request.user)
     return render(request, 'my_resumes.html', {'resumes': resumes})
+
+# User Profile View
+@login_required
+def user_profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    edit_mode = request.GET.get('edit', False)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('job_resume:user_profile')
+    else:
+        form = UserProfileForm(instance=profile)
+
+    return render(request, 'user_profile.html', {
+        'form': form,
+        'profile': profile,
+        'edit_mode': edit_mode
+    })
 
 # Admin Views
 @login_required
