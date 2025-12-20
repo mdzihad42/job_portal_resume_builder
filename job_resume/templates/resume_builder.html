@@ -9,99 +9,41 @@
 
 {% block content %}
 <style>
-/* Premium Animated Resume Builder Page Styles */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes bounceIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.3);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 .premium-card {
-    background: linear-gradient(135deg, #ffffff 0%, #fadbd8 100%);
-    border: 2px solid #f1c40f;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.8s ease-out;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #d4af37;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
+    backdrop-filter: blur(15px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    pointer-events: none;
 }
 
 .premium-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 30px 60px rgba(212, 175, 55, 0.25);
+    border-color: #c0c0c0;
 }
 
 .gradient-header {
-    background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #c0c0c0 100%);
     position: relative;
     overflow: hidden;
-    border-radius: 18px 18px 0 0;
+    border-radius: 22px 22px 0 0;
+    padding: 2rem 0;
 }
 
 .gradient-header::before {
@@ -111,48 +53,51 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    animation: shimmer 2s infinite;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
 .form-section {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #f1c40f;
-    border-radius: 15px;
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.8s ease-out;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #d4af37;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 1s ease-out;
+    margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .form-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+    border-color: #c0c0c0;
 }
 
 .form-control, .form-select {
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 2px solid #fadbd8;
-    transition: all 0.3s ease;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #d4af37;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    position: relative;
 }
 
 .form-control:focus, .form-select:focus {
-    border-color: #e74c3c;
-    box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+    border-color: #b8860b;
+    box-shadow: 0 0 0 0.3rem rgba(212, 175, 55, 0.25);
     background: rgba(255, 255, 255, 1);
 }
 
 .btn-premium {
-    background: linear-gradient(135deg, #e74c3c 0%, #f39c12 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #c0c0c0 100%);
     border: none;
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
 }
 
 .btn-premium::before {
@@ -162,8 +107,8 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
 }
 
 .btn-premium:hover::before {
@@ -171,21 +116,22 @@
 }
 
 .btn-premium:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
 }
 
 .btn-secondary-premium {
-    background: linear-gradient(135deg, #c0392b 0%, #e67e22 100%);
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
     border: none;
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(52, 73, 94, 0.3);
 }
 
 .btn-secondary-premium::before {
@@ -196,7 +142,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
+    transition: left 0.6s;
 }
 
 .btn-secondary-premium:hover::before {
@@ -204,21 +150,22 @@
 }
 
 .btn-secondary-premium:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(192, 57, 43, 0.3);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(52, 73, 94, 0.4);
 }
 
 .btn-success-premium {
     background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
     border: none;
-    border-radius: 25px;
-    padding: 12px 30px;
-    font-weight: 600;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(39, 174, 96, 0.3);
 }
 
 .btn-success-premium::before {
@@ -229,7 +176,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
+    transition: left 0.6s;
 }
 
 .btn-success-premium:hover::before {
@@ -237,20 +184,28 @@
 }
 
 .btn-success-premium:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
 }
 
 .animate-slide-left {
-    animation: slideInLeft 0.8s ease-out;
+    animation: slideInLeft 1s ease-out;
 }
 
 .animate-slide-right {
-    animation: slideInRight 0.8s ease-out;
+    animation: slideInRight 1s ease-out;
 }
 
 .animate-bounce {
-    animation: bounceIn 0.8s ease-out;
+    animation: bounceIn 1s ease-out;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 2s ease-in-out infinite;
 }
 
 .animate-delay-1 {
@@ -285,173 +240,511 @@
     position: relative;
 }
 
+.input-icon .form-control, .input-icon .form-select {
+    padding-right: 3rem; /* Make space for the icon */
+}
+
 .input-icon i {
     position: absolute;
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #c0392b;
-    transition: color 0.3s ease;
+    color: #d4af37;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    pointer-events: none; /* Prevent icon from interfering with input clicks */
+    z-index: 5;
 }
 
 .input-icon .form-control:focus + i {
-    color: #e74c3c;
+    color: #b8860b;
+    transform: translateY(-50%) scale(1.2);
+}
+
+.form-label {
+    color: #2c3e50 !important;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.form-label::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #d4af37 0%, #c0c0c0 100%);
+    transition: width 0.3s ease;
+}
+
+.input-icon .form-control:focus ~ .form-label::after {
+    width: 100%;
+}
+
+.progress-indicator {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+.progress-step {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.3);
+    margin: 8px 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.progress-step.active {
+    background: #d4af37;
+    transform: scale(1.5);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+}
+
+.typing-effect {
+    overflow: hidden;
+    border-right: 2px solid #d4af37;
+    white-space: nowrap;
+    animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+}
+
+.live-preview-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #3d3d3d 100%);
+    border: 2px solid #d4af37;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: sticky;
+    top: 100px;
+}
+
+.live-preview-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.resume-preview-content {
+    color: #ffffff;
+    padding: 1rem;
+}
+
+.resume-preview-content h2 {
+    color: #d4af37;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.resume-preview-content h3 {
+    color: #c0c0c0;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.resume-preview-content p, .resume-preview-content pre {
+    color: #f8f9fa;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.resume-preview-content pre {
+    white-space: pre-wrap;
+    font-family: inherit;
+}
+
+/* Additional styles for enhanced JavaScript features */
+.skill-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+    color: #2c3e50;
+    padding: 0.3rem 0.8rem;
+    margin: 0.2rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+}
+
+.skill-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.contact-info p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+
+.contact-info i {
+    color: #d4af37;
+    margin-right: 0.3rem;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.completed {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
+    box-shadow: 0 0 15px rgba(39, 174, 96, 0.6) !important;
+}
+
+.has-content {
+    border-color: #b8860b !important;
+}
+
+.focused .form-label::after {
+    width: 100% !important;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(39, 174, 96, 0.3);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(52, 73, 94, 0.3);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(52, 73, 94, 0.4);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #c0c0c0 100%);
+    border: none;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.loaded {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@media (max-width: 768px) {
+    .premium-card {
+        margin: 1rem;
+        border-radius: 16px;
+    }
+
+    .gradient-header {
+        border-radius: 14px 14px 0 0;
+        padding: 1.5rem 0;
+    }
+
+    .progress-indicator {
+        display: none;
+    }
+
+    .live-preview-card {
+        position: static;
+        margin-top: 2rem;
+    }
 }
 </style>
+
+<!-- Progress Indicator -->
+<div class="progress-indicator">
+    <div class="progress-step active" data-step="1"></div>
+    <div class="progress-step" data-step="2"></div>
+    <div class="progress-step" data-step="3"></div>
+    <div class="progress-step" data-step="4"></div>
+    <div class="progress-step" data-step="5"></div>
+    <div class="progress-step" data-step="6"></div>
+    <div class="progress-step" data-step="7"></div>
+</div>
 
 <div class="container-fluid py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;">
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="premium-card">
-                        <div class="gradient-header text-dark text-center py-4 position-relative">
+                        <div class="gradient-header text-center position-relative">
                             <div class="position-relative z-index-1">
-                                <h2 class="mb-2 animate-bounce" style="color: #c0392b;">
-                                    <i class="fas fa-edit me-3"></i>Resume Builder
+                                <h2 class="mb-3 animate-bounce typing-effect" style="color: #2c3e50; font-size: 2.5rem; font-weight: 800;">
+                                    <i class="fas fa-magic me-3 animate-float"></i>Professional Resume Builder
                                 </h2>
-                                <p class="mb-0 fs-5 animate-bounce animate-delay-1" style="color: #e74c3c;">Create your professional resume with ease</p>
+                                <p class="mb-0 fs-5 animate-bounce animate-delay-1" style="color: #34495e; font-weight: 500;">Craft your perfect resume with our animated, professional builder</p>
                             </div>
                         </div>
-                        <div class="card-body p-4">
-<div class="row fade-in-up">
-    <div class="col-md-8">
-        <div class="card job-card fade-in-up" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #3d3d3d 100%); border: 2px solid var(--primary-gold); border-radius: var(--border-radius-lg); box-shadow: var(--shadow);">
-            <div class="card-header" style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid var(--primary-gold);">
-                <h3 class="mb-0" style="color: white; font-weight: 600;"><i class="fas fa-edit me-2"></i>Resume Builder</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" id="resume-form">
-                    {% csrf_token %}
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-file-alt me-1"></i>Resume Name</label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                            <div class="text-danger">{{ form.name.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-palette me-1"></i>Template Type</label>
-                        {{ form.template_type }}
-                        {% if form.template_type.errors %}
-                            <div class="text-danger">{{ form.template_type.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-user me-1"></i>Full Name</label>
-                        {{ form.full_name }}
-                        {% if form.full_name.errors %}
-                            <div class="text-danger">{{ form.full_name.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="row fade-in-up">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-envelope me-1"></i>Email</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="text-danger">{{ form.email.errors }}</div>
-                                {% endif %}
+                        <div class="card-body p-5">
+                            <div class="row">
+                                <div class="col-lg-8 animate-slide-left">
+                                    <div class="form-section p-4">
+                                        <h4 class="mb-4 text-center" style="color: #2c3e50; font-weight: 700;">
+                                            Resume Details
+                                        </h4>
+                                        <form method="post" id="resume-form">
+                                            {% csrf_token %}
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3 animate-delay-1">
+                                                    <div class="input-icon">
+                                                        <label class="form-label">Resume Name</label>
+                                                        {{ form.name }}
+                                                        
+                                                        {% if form.name.errors %}
+                                                            <div class="text-danger mt-1">{{ form.name.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3 animate-delay-2">
+                                                    <div class="input-icon">
+                                                        <label class="form-label">Template Type</label>
+                                                        {{ form.template_type }}
+                                                        
+                                                        {% if form.template_type.errors %}
+                                                            <div class="text-danger mt-1">{{ form.template_type.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-3">
+                                                <div class="input-icon">
+                                                    <label class="form-label">Full Name</label>
+                                                    {{ form.full_name }}
+                                                    
+                                                    {% if form.full_name.errors %}
+                                                        <div class="text-danger mt-1">{{ form.full_name.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3 animate-delay-4">
+                                                    <div class="input-icon">
+                                                        <label class="form-label">Email</label>
+                                                        {{ form.email }}
+                                                        <i class="fas fa-at"></i>
+                                                        {% if form.email.errors %}
+                                                            <div class="text-danger mt-1">{{ form.email.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3 animate-delay-5">
+                                                    <div class="input-icon">
+                                                        <label class="form-label"><i class="fas fa-phone me-1"></i>Phone</label>
+                                                        {{ form.phone }}
+                                                        <i class="fas fa-mobile-alt"></i>
+                                                        {% if form.phone.errors %}
+                                                            <div class="text-danger mt-1">{{ form.phone.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-6">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-map-marker-alt me-1"></i>Address</label>
+                                                    {{ form.address }}
+                                                    <i class="fas fa-map-pin"></i>
+                                                    {% if form.address.errors %}
+                                                        <div class="text-danger mt-1">{{ form.address.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3 animate-delay-7">
+                                                    <div class="input-icon">
+                                                        <label class="form-label">LinkedIn</label>
+                                                        {{ form.linkedin }}
+
+                                                        {% if form.linkedin.errors %}
+                                                            <div class="text-danger mt-1">{{ form.linkedin.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-3 animate-delay-1">
+                                                    <div class="input-icon">
+                                                        <label class="form-label">GitHub</label>
+                                                        {{ form.github }}
+
+                                                        {% if form.github.errors %}
+                                                            <div class="text-danger mt-1">{{ form.github.errors }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-2">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-user-tie me-1"></i>Professional Summary</label>
+                                                    {{ form.summary }}
+                                                    <i class="fas fa-quote-left"></i>
+                                                    {% if form.summary.errors %}
+                                                        <div class="text-danger mt-1">{{ form.summary.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-3">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-tools me-1"></i>Skills (comma-separated)</label>
+                                                    {{ form.skills }}
+                                                    <i class="fas fa-cogs"></i>
+                                                    {% if form.skills.errors %}
+                                                        <div class="text-danger mt-1">{{ form.skills.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-4">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-briefcase me-1"></i>Work Experience</label>
+                                                    {{ form.work_experience }}
+                                                    <i class="fas fa-building"></i>
+                                                    {% if form.work_experience.errors %}
+                                                        <div class="text-danger mt-1">{{ form.work_experience.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-5">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-graduation-cap me-1"></i>Education</label>
+                                                    {{ form.education }}
+                                                    <i class="fas fa-university"></i>
+                                                    {% if form.education.errors %}
+                                                        <div class="text-danger mt-1">{{ form.education.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-6">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-project-diagram me-1"></i>Projects</label>
+                                                    {{ form.projects }}
+                                                    <i class="fas fa-code-branch"></i>
+                                                    {% if form.projects.errors %}
+                                                        <div class="text-danger mt-1">{{ form.projects.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 animate-delay-7">
+                                                <div class="input-icon">
+                                                    <label class="form-label"><i class="fas fa-certificate me-1"></i>Certifications</label>
+                                                    {{ form.certifications }}
+                                                    <i class="fas fa-award"></i>
+                                                    {% if form.certifications.errors %}
+                                                        <div class="text-danger mt-1">{{ form.certifications.errors }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex gap-3 justify-content-center mt-4 animate-delay-1">
+                                                <button type="submit" class="btn btn-premium">
+                                                    <i class="fas fa-save me-2"></i>Save Resume
+                                                </button>
+                                                {% if resume %}
+                                                    <a href="{% url 'job_resume:resume_preview' resume.id %}" class="btn btn-secondary-premium">
+                                                        <i class="fas fa-eye me-2"></i>Preview
+                                                    </a>
+                                                    <a href="{% url 'job_resume:download_resume' resume.id %}" class="btn btn-success-premium">
+                                                        <i class="fas fa-download me-2"></i>Download PDF
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 animate-slide-right">
+                                    <div class="live-preview-card">
+                                        <div class="card-header text-center" style="background: rgba(212, 175, 55, 0.1); border-bottom: 2px solid #d4af37;">
+                                            <h5 class="mb-0" style="color: #d4af37; font-weight: 700;">
+                                                <i class="fas fa-eye me-2 animate-pulse"></i>Live Preview
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="resume-preview" class="resume-preview-content">
+                                                <!-- Preview will be updated via JavaScript -->
+                                                <div class="text-center text-muted">
+                                                    <i class="fas fa-magic fa-3x mb-3 animate-float" style="color: #d4af37;"></i>
+                                                    <p>Start filling the form to see your resume preview here!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-phone me-1"></i>Phone</label>
-                                {{ form.phone }}
-                                {% if form.phone.errors %}
-                                    <div class="text-danger">{{ form.phone.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
                     </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-map-marker-alt me-1"></i>Address</label>
-                        {{ form.address }}
-                        {% if form.address.errors %}
-                            <div class="text-danger">{{ form.address.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="row fade-in-up">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fab fa-linkedin me-1"></i>LinkedIn</label>
-                                {{ form.linkedin }}
-                                {% if form.linkedin.errors %}
-                                    <div class="text-danger">{{ form.linkedin.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fab fa-github me-1"></i>GitHub</label>
-                                {{ form.github }}
-                                {% if form.github.errors %}
-                                    <div class="text-danger">{{ form.github.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-user-tie me-1"></i>Professional Summary</label>
-                        {{ form.summary }}
-                        {% if form.summary.errors %}
-                            <div class="text-danger">{{ form.summary.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-tools me-1"></i>Skills (comma-separated)</label>
-                        {{ form.skills }}
-                        {% if form.skills.errors %}
-                            <div class="text-danger">{{ form.skills.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-briefcase me-1"></i>Work Experience</label>
-                        {{ form.work_experience }}
-                        {% if form.work_experience.errors %}
-                            <div class="text-danger">{{ form.work_experience.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-graduation-cap me-1"></i>Education</label>
-                        {{ form.education }}
-                        {% if form.education.errors %}
-                            <div class="text-danger">{{ form.education.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-project-diagram me-1"></i>Projects</label>
-                        {{ form.projects }}
-                        {% if form.projects.errors %}
-                            <div class="text-danger">{{ form.projects.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="mb-3 fade-in-up">
-                        <label class="form-label"><i class="fas fa-certificate me-1"></i>Certifications</label>
-                        {{ form.certifications }}
-                        {% if form.certifications.errors %}
-                            <div class="text-danger">{{ form.certifications.errors }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="d-flex gap-2 fade-in-up">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save me-1"></i>Save Resume</button>
-                        {% if resume %}
-                            <a href="{% url 'job_resume:resume_preview' resume.id %}" class="btn btn-secondary"><i class="fas fa-eye me-1"></i>Preview</a>
-                            <a href="{% url 'job_resume:download_resume' resume.id %}" class="btn btn-success"><i class="fas fa-download me-1"></i>Download PDF</a>
-                        {% endif %}
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card job-card fade-in-up" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #3d3d3d 100%); border: 2px solid var(--primary-gold); border-radius: var(--border-radius-lg); box-shadow: var(--shadow);">
-            <div class="card-header" style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid var(--primary-gold);">
-                <h5 class="mb-0" style="color: white; font-weight: 600;"><i class="fas fa-eye me-2"></i>Live Preview</h5>
-            </div>
-            <div class="card-body">
-                <div id="resume-preview" class="resume-preview">
-                    <!-- Preview will be updated via JavaScript -->
                 </div>
             </div>
         </div>
