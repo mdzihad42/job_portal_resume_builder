@@ -4,7 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa
+try:
+    from xhtml2pdf import pisa
+except ImportError:
+    pisa = None
 from django.db.models import Q
 import json
 from .models import User, Job, Application, Resume, UserProfile
@@ -189,6 +192,9 @@ def download_resume(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id, user=request.user)
     template = get_template(f'resume_{resume.template_type}.html')
     html = template.render({'resume': resume})
+    if pisa is None:
+        return HttpResponse('PDF generation is currently unavailable. Please contact support.', status=503)
+        
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{resume.name}.pdf"'
     pisa_status = pisa.CreatePDF(html, dest=response)
