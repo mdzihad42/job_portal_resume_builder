@@ -49,22 +49,22 @@ def logout_view(request):
 @login_required
 def home(request):
     if request.user.role == 'admin':
-        jobs = Job.objects.all()[:10]
+        jobs = Job.objects.all().order_by('-created_at')[:10]
     elif request.user.role == 'employer':
-        jobs = Job.objects.filter(posted_by=request.user)[:10]
+        jobs = Job.objects.filter(posted_by=request.user).order_by('-created_at')[:10]
     else:  # job_seeker
-        jobs = Job.objects.all()[:10]
+        jobs = Job.objects.filter(status='approved').order_by('-created_at')[:10]
     return render(request, 'home.html', {'jobs': jobs})
 
 @login_required
 def job_list(request):
     query = request.GET.get('q', '')
     if request.user.role == 'admin':
-        jobs = Job.objects.all()
+        jobs = Job.objects.all().order_by('-created_at')
     elif request.user.role == 'employer':
-        jobs = Job.objects.filter(posted_by=request.user)
+        jobs = Job.objects.filter(posted_by=request.user).order_by('-created_at')
     else:  # job_seeker
-        jobs = Job.objects.all()
+        jobs = Job.objects.filter(status='approved').order_by('-created_at')
         if query:
             jobs = jobs.filter(
                 Q(title__icontains=query) |
@@ -102,7 +102,7 @@ def apply_job(request, job_id):
 @login_required
 @job_seeker_required
 def my_applications(request):
-    applications = Application.objects.filter(user=request.user)
+    applications = Application.objects.filter(user=request.user).order_by('-applied_at')
     return render(request, 'my_applications.html', {'applications': applications})
 
 # Employer Views
@@ -124,14 +124,14 @@ def post_job(request):
 @login_required
 @employer_required
 def my_jobs(request):
-    jobs = Job.objects.filter(posted_by=request.user)
+    jobs = Job.objects.filter(posted_by=request.user).order_by('-created_at')
     return render(request, 'my_jobs.html', {'jobs': jobs})
 
 @login_required
 @employer_required
 def job_applications(request, job_id):
     job = get_object_or_404(Job, id=job_id, posted_by=request.user)
-    applications = Application.objects.filter(job=job)
+    applications = Application.objects.filter(job=job).order_by('-applied_at')
     return render(request, 'job_applications.html', {'job': job, 'applications': applications})
 
 @login_required
@@ -199,7 +199,7 @@ def download_resume(request, resume_id):
 @login_required
 @job_seeker_required
 def my_resumes(request):
-    resumes = Resume.objects.filter(user=request.user)
+    resumes = Resume.objects.filter(user=request.user).order_by('-updated_at')
     return render(request, 'my_resumes.html', {'resumes': resumes})
 
 # User Profile View
@@ -227,13 +227,26 @@ def user_profile(request):
 @login_required
 @admin_required
 def admin_dashboard(request):
-    users = User.objects.all()
-    jobs = Job.objects.all()
-    applications = Application.objects.all()
+    users = User.objects.all().order_by('-date_joined')
+    jobs = Job.objects.all().order_by('-created_at')
+    applications = Application.objects.all().order_by('-applied_at')
+    
+    # Simple analytics
+    total_users = users.count()
+    total_jobs = jobs.count()
+    total_applications = applications.count()
+    recent_users = users[:5]
+    recent_jobs = jobs[:5]
+    
     return render(request, 'admin_dashboard.html', {
         'users': users,
         'jobs': jobs,
-        'applications': applications
+        'applications': applications,
+        'total_users': total_users,
+        'total_jobs': total_jobs,
+        'total_applications': total_applications,
+        'recent_users': recent_users,
+        'recent_jobs': recent_jobs
     })
 
 @login_required
@@ -256,8 +269,28 @@ def reject_job(request, job_id):
 
 @login_required
 @admin_required
+def delete_job(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    job.delete()
+    messages.success(request, 'Job deleted successfully!')
+    return redirect('job_resume:admin_dashboard')
+
+@login_required
+@admin_required
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if user.is_superuser:
+        messages.error(request, 'Cannot delete superuser!')
+    else:
+        user.delete()
+        messages.success(request, 'User deleted successfully!')
+    return redirect('job_resume:admin_dashboard')
+
+@login_required
+@admin_required
 def manage_users(request):
-    users = User.objects.all()
+    # This might be redundant if we put everything in dashboard, but keeping it for safety
+    users = User.objects.all().order_by('-date_joined')
     return render(request, 'manage_users.html', {'users': users})
 
 @login_required
@@ -270,8 +303,10 @@ def change_user_role(request, user_id):
             user.role = new_role
             user.save()
             messages.success(request, f'User role changed to {new_role}!')
-        return redirect('job_resume:manage_users')
-    return render(request, 'change_user_role.html', {'user': user})
+        return redirect('job_resume:admin_dashboard')
+    # If we want a separate page, we render 'change_user_role.html'.
+    # implementing a simple redirect back if GET for now to avoid creating another template unless needed.
+    return redirect('job_resume:admin_dashboard')
 
 @login_required
 @admin_required

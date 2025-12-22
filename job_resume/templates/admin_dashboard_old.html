@@ -314,9 +314,12 @@
                                         <div class="input-group input-group-sm">
                                             <select name="role" class="form-select"
                                                 style="width: auto; max-width: 120px;" onchange="this.form.submit()">
-                                                <option value="job_seeker" {% if user.role == "job_seeker" %}selected{% endif %}>Seeker</option>
-                                                <option value="employer" {% if user.role == "employer" %}selected{% endif %}>Employer</option>
-                                                <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
+                                                <option value="job_seeker" {% if user.role=="job_seeker" %}selected{%
+                                                    endif %}>Seeker</option>
+                                                <option value="employer" {% if user.role=="employer" %}selected{% endif
+                                                    %}>Employer</option>
+                                                <option value="admin" {% if user.role=="admin" %}selected{% endif %}>
+                                                    Admin</option>
                                             </select>
                                         </div>
                                     </form>
