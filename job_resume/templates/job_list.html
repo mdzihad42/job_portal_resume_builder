@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Job List{% endblock %}
+
+{% block content %}
+<h1>Available Jobs</h1>
+
+<!-- Search Form -->
+<div class="mb-5">
+    <div class="search-container animate-fade-in" style="max-width: 700px; margin: 0 auto; position: relative;">
+        <div class="search-wrapper" style="position: relative; overflow: hidden; border-radius: 50px; box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2); background: var(--light-bg); border: 2px solid var(--accent-gold);">
+            <form method="GET" class="d-flex position-relative">
+                <div class="input-group w-100">
+                    <span class="input-group-text search-icon" style="background: var(--gradient-accent); color: var(--dark-bg); border: none; border-radius: 50px 0 0 50px; padding: 15px 20px; transition: all 0.3s ease;">
+                        <i class="fas fa-search search-pulse" style="color: var(--dark-bg); font-size: 1.2rem;"></i>
+                    </span>
+                    <input type="text" name="q" class="form-control search-input" placeholder="🔍 Search jobs by title, description, company, or location..." value="{{ query }}" style="border: none; font-size: 1.1rem; padding: 15px 20px; background: transparent; color: var(--text-dark); font-weight: 500;">
+                    <button type="submit" class="btn search-btn" style="background: var(--gradient-accent); color: var(--dark-bg); border: none; border-radius: 0 50px 50px 0; padding: 15px 30px; font-weight: 600; transition: all 0.3s ease; position: relative; overflow: hidden;">
+                        <span class="btn-text"><i class="fas fa-search me-2"></i>Search</span>
+                        <span class="btn-glow" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s;"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Floating particles animation -->
+        <div class="floating-particles">
+            <div class="particle" style="position: absolute; top: -10px; left: 20%; width: 4px; height: 4px; background: var(--accent-gold); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
+            <div class="particle" style="position: absolute; top: -5px; right: 25%; width: 3px; height: 3px; background: var(--accent-silver); border-radius: 50%; animation: float 4s ease-in-out infinite 1s;"></div>
+            <div class="particle" style="position: absolute; bottom: -8px; left: 40%; width: 5px; height: 5px; background: var(--accent-gold); border-radius: 50%; animation: float 2.5s ease-in-out infinite 0.5s;"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.search-input:focus {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.search-btn:hover .btn-glow {
+    left: 100%;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+.search-icon:hover {
+    transform: scale(1.05);
+}
+
+.search-pulse {
+    animation: pulse 2s infinite;
+}
+
+.search-wrapper:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+}
+
+.floating-particles {
+    pointer-events: none;
+}
+</style>
+
+<div class="row">
+    {% for job in jobs %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p class="card-text">{{ job.description|truncatechars:100 }}</p>
+                    <p class="text-white">{{ job.company }} - {{ job.location }}</p>
+                    {% if job.salary %}
+                        <p class="text-success">${{ job.salary }}</p>
+                    {% endif %}
+                    <a href="{% url 'job_resume:job_detail' job.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p>No jobs available{% if query %} matching "{{ query }}"{% endif %}.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

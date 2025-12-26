@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0"><i class="fas fa-users me-2"></i>Applications for: {{ job.title }}</h3>
+                    <a href="{% url 'job_resume:my_jobs' %}" class="btn btn-light">
+                        <i class="fas fa-arrow-left me-1"></i>Back to My Jobs
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="custom-table-header">
+                                    <tr>
+                                        <th><i class="fas fa-user me-1"></i>Applicant Name</th>
+                                        <th><i class="fas fa-envelope me-1"></i>Email</th>
+                                        <th><i class="fas fa-phone me-1"></i>Phone</th>
+                                        <th><i class="fas fa-info-circle me-1"></i>Status</th>
+                                        <th><i class="fas fa-calendar me-1"></i>Applied Date</th>
+                                        <th><i class="fas fa-cogs me-1"></i>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in applications %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ application.name }}</strong>
+                                                <br><small class="text-muted">@{{ application.user.username }}</small>
+                                            </td>
+                                            <td>{{ application.user.email }}</td>
+                                            <td>
+                                                {% if application.phone %}
+                                                    <i class="fas fa-phone text-success me-1"></i>{{ application.phone }}
+                                                {% else %}
+                                                    <span class="text-muted">Not provided</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if application.status == 'applied' %}
+                                                    <span class="badge bg-secondary">{{ application.status|title }}</span>
+                                                {% elif application.status == 'shortlisted' %}
+                                                    <span class="badge bg-warning text-dark">{{ application.status|title }}</span>
+                                                {% elif application.status == 'hired' %}
+                                                    <span class="badge bg-success">{{ application.status|title }}</span>
+                                                {% elif application.status == 'rejected' %}
+                                                    <span class="badge bg-danger">{{ application.status|title }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ application.applied_at|date:"M d, Y" }}</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    {% if application.cv_pdf %}
+                                                        <a href="{{ application.cv_pdf.url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="Download CV">
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                    <a href="{% url 'job_resume:update_application_status' application.id %}" class="btn btn-sm btn-outline-secondary" title="Update Status">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Total applications: {{ applications|length }}
+                            </small>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">No applications received yet</h4>
+                            <p class="text-muted">Applications for this job will appear here once candidates apply.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+    border: none;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+}
+
+.table thead.custom-table-header th {
+    background: linear-gradient(135deg, #d4af37 0%, #c0c0c0 100%) !important;
+    color: #1a1a1a !important;
+    border: none !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.375em 0.75em;
+}
+
+.btn-group .btn {
+    margin-right: 0.25rem;
+}
+
+.btn-group .btn:last-child {
+    margin-right: 0;
+}
+</style>
+{% endblock %}
