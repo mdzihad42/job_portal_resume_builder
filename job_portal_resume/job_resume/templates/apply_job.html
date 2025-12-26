@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply for {{ job.title }}{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --glass-bg: rgba(26, 26, 26, 0.95);
+        --input-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    .apply-section {
+        min-height: 85vh;
+        padding: 4rem 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Background Animation */
+    .apply-bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.5;
+        animation: floatShape 10s infinite alternate;
+    }
+
+    .shape-1 {
+        top: 10%;
+        left: 5%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, var(--primary-gold), transparent);
+    }
+
+    .shape-2 {
+        bottom: 10%;
+        right: 5%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #c0c0c0, transparent);
+        animation-delay: -5s;
+    }
+
+    @keyframes floatShape {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(30px, 50px) rotate(10deg);
+        }
+    }
+
+    /* Card Styling */
+    .apply-card {
+        background: var(--glass-bg);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: var(--border-radius-lg);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 900px;
+    }
+
+    .apply-header {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(192, 192, 192, 0.05));
+        border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+    }
+
+    .apply-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .apply-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .job-meta-row {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .job-meta {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        color: var(--primary-gold);
+    }
+
+    .job-meta i {
+        margin-right: 0.75rem;
+        font-size: 1.2rem;
+    }
+
+    .job-meta span {
+        color: white;
+        font-weight: 500;
+    }
+
+    .apply-body {
+        padding: 3rem;
+    }
+
+    /* Form Styling */
+    .form-group-custom {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .form-label-custom {
+        position: absolute;
+        top: -12px;
+        left: 15px;
+        background: var(--dark-bg);
+        /* Match bg to hide line */
+        padding: 0 5px;
+        color: var(--primary-gold);
+        font-size: 0.85rem;
+        font-weight: 600;
+        z-index: 2;
+        border-radius: 4px;
+    }
+
+    .form-control-custom {
+        background: var(--input-bg) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white !important;
+        padding: 1rem 1.25rem;
+        border-radius: var(--border-radius);
+        width: 100%;
+        transition: all 0.3s;
+    }
+
+    .form-control-custom:focus {
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+        outline: none;
+        background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .file-upload-wrapper {
+        border: 2px dashed rgba(212, 175, 55, 0.3);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .file-upload-wrapper:hover {
+        border-color: var(--primary-gold);
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .file-upload-icon {
+        font-size: 2.5rem;
+        color: var(--primary-gold);
+        margin-bottom: 1rem;
+    }
+
+    .upload-text {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 0.5rem;
+    }
+
+    .file-name-display {
+        color: var(--secondary-gold);
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+
+    /* Style the actual file input to be invisible but clickable */
+    .form-control-file {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .btn-apply {
+        background: var(--gradient-accent);
+        border: none;
+        padding: 1rem 2rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        width: 100%;
+        border-radius: var(--border-radius);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-apply:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-cancel {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: var(--border-radius);
+        font-weight: 600;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-cancel:hover {
+        border-color: #dc3545;
+        color: #dc3545;
+        background: rgba(220, 53, 69, 0.05);
+    }
+
+    /* Override any global white p/h5 color if needed */
+    .apply-card p,
+    .apply-card h1,
+    .apply-card h2,
+    .apply-card h3,
+    .apply-card h4,
+    .apply-card h5,
+    .apply-card label {
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .job-meta-row {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .apply-header {
+            padding: 1.5rem;
+        }
+
+        .apply-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="apply-section">
+    <!-- Shapes -->
+    <div class="apply-bg-shape shape-1"></div>
+    <div class="apply-bg-shape shape-2"></div>
+
+    <div class="apply-card animate-slide-in-up">
+        <div class="apply-header">
+            <h1 class="apply-title">Apply Now</h1>
+            <p class="apply-subtitle">Take the next step in your career</p>
+
+            <div class="job-meta-row">
+                <div class="job-meta">
+                    <i class="fas fa-briefcase"></i>
+                    <span>{{ job.title }}</span>
+                </div>
+                <div class="job-meta">
+                    <i class="fas fa-building"></i>
+                    <span>{{ job.company }}</span>
+                </div>
+                <div class="job-meta">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ job.location }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="apply-body">
+            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-custom animate-fade-in-up animate-delay-1">
+                            <label for="{{ form.name.id_for_label }}" class="form-label-custom">
+                                FULL NAME
+                            </label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                            <div class="text-danger small mt-2">{{ form.name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group-custom animate-fade-in-up animate-delay-2">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label-custom">
+                                PHONE NUMBER
+                            </label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}
+                            <div class="text-danger small mt-2">{{ form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-custom animate-fade-in-up animate-delay-3">
+                    <label class="form-label-custom"
+                        style="left: 0; position: relative; margin-bottom: 0.5rem; display: block; background: none;">
+                        UPLOAD CV (PDF ONLY)
+                    </label>
+                    <div class="file-upload-wrapper" id="drop-zone">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h4 class="upload-text">Drag & Drop or Click to Upload</h4>
+                        <p class="small text-muted mb-0">Max size: 5MB</p>
+
+                        <!-- The actual input -->
+                        {{ form.cv_pdf }}
+
+                        <div id="file-name" class="file-name-display"></div>
+                    </div>
+                    {% if form.cv_pdf.errors %}
+                    <div class="text-danger small mt-2 text-center">{{ form.cv_pdf.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="row mt-4 align-items-center animate-fade-in-up animate-delay-4">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <a href="{% url 'job_resume:job_detail' job.id %}" class="btn-cancel">
+                            CANCEL
+                        </a>
+                    </div>
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-apply">
+                            SUBMIT APPLICATION <i class="fas fa-paper-plane ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add custom class to inputs
+        const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="number"]');
+        textInputs.forEach(input => {
+            input.classList.add('form-control-custom');
+            // Remove standard bootstrap class to avoid conflicts if needed, or keep for basic layout
+            input.classList.remove('form-control');
+        });
+
+        // File Input Handling
+        const fileInput = document.querySelector('input[type="file"]');
+        const dropZone = document.getElementById('drop-zone');
+        const fileNameDisplay = document.getElementById('file-name');
+
+        if (fileInput) {
+            fileInput.classList.add('form-control-file'); // Ensure it has the invisible styling
+
+            fileInput.addEventListener('change', function (e) {
+                if (this.files && this.files[0]) {
+                    fileNameDisplay.textContent = this.files[0].name;
+                    dropZone.style.borderColor = 'var(--primary-gold)';
+                    dropZone.style.background = 'rgba(212, 175, 55, 0.1)';
+                }
+            });
+
+            // Drag and drop effects
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                dropZone.style.borderColor = 'var(--primary-gold)';
+                dropZone.style.background = 'rgba(212, 175, 55, 0.15)';
+            }
+
+            function unhighlight(e) {
+                if (!fileInput.files.length) {
+                    dropZone.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                    dropZone.style.background = 'transparent';
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

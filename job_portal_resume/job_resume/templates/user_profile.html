@@ -1,0 +1,704 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if edit_mode %}
+<style>
+/* Premium Animated Edit Profile Page Styles */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.premium-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.premium-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.gradient-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px 18px 0 0;
+}
+
+.gradient-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.section-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d4af37;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.section-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-control, .form-select {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: rgba(255, 255, 255, 1);
+}
+
+.btn-premium {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+    left: 100%;
+}
+
+.btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.8s ease-out;
+}
+
+.animate-bounce {
+    animation: bounceIn 0.8s ease-out;
+}
+
+.animate-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.4s;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.6s;
+}
+
+.animate-delay-4 {
+    animation-delay: 0.8s;
+}
+
+.animate-delay-5 {
+    animation-delay: 1s;
+}
+</style>
+
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="premium-card">
+                <div class="gradient-header text-white text-center py-5 position-relative">
+                    <div class="position-relative z-index-1">
+                        <h1 class="mb-3 animate-bounce">
+                            <i class="fas fa-user-edit me-3"></i>Edit Your Profile
+                        </h1>
+                        <p class="mb-0 fs-5 animate-bounce animate-delay-1">Update your personal and professional information</p>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Personal Information Section -->
+                        <div class="section-card p-4 mb-5 animate-slide-left">
+                            <h4 class="text-primary mb-4 animate-bounce">
+                                <i class="fas fa-user me-3"></i>Personal Information
+                            </h4>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-1">
+                                    <div class="mb-3">
+                                        <label for="{{ form.full_name.id_for_label }}" class="form-label fw-bold">Full Name</label>
+                                        {{ form.full_name }}
+                                        {% if form.full_name.errors %}
+                                            <div class="text-danger mt-1">{{ form.full_name.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-1">
+                                    <div class="mb-3">
+                                        <label for="{{ form.phone.id_for_label }}" class="form-label fw-bold">Phone</label>
+                                        {{ form.phone }}
+                                        {% if form.phone.errors %}
+                                            <div class="text-danger mt-1">{{ form.phone.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-2">
+                                    <div class="mb-3">
+                                        <label for="{{ form.address.id_for_label }}" class="form-label fw-bold">Address</label>
+                                        {{ form.address }}
+                                        {% if form.address.errors %}
+                                            <div class="text-danger mt-1">{{ form.address.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-2">
+                                    <div class="mb-3">
+                                        <label for="{{ form.date_of_birth.id_for_label }}" class="form-label fw-bold">Date of Birth</label>
+                                        {{ form.date_of_birth }}
+                                        {% if form.date_of_birth.errors %}
+                                            <div class="text-danger mt-1">{{ form.date_of_birth.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-3">
+                                    <div class="mb-3">
+                                        <label for="{{ form.bio.id_for_label }}" class="form-label fw-bold">Bio</label>
+                                        {{ form.bio }}
+                                        {% if form.bio.errors %}
+                                            <div class="text-danger mt-1">{{ form.bio.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-3">
+                                    <div class="mb-3">
+                                        <label for="{{ form.linkedin_url.id_for_label }}" class="form-label fw-bold">LinkedIn URL</label>
+                                        {{ form.linkedin_url }}
+                                        {% if form.linkedin_url.errors %}
+                                            <div class="text-danger mt-1">{{ form.linkedin_url.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-4">
+                                    <div class="mb-3">
+                                        <label for="{{ form.github_url.id_for_label }}" class="form-label fw-bold">GitHub URL</label>
+                                        {{ form.github_url }}
+                                        {% if form.github_url.errors %}
+                                            <div class="text-danger mt-1">{{ form.github_url.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-4">
+                                    <div class="mb-3">
+                                        <label for="{{ form.portfolio_url.id_for_label }}" class="form-label fw-bold">Portfolio URL</label>
+                                        {{ form.portfolio_url }}
+                                        {% if form.portfolio_url.errors %}
+                                            <div class="text-danger mt-1">{{ form.portfolio_url.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Professional Information Section -->
+                        <div class="section-card p-4 mb-5 animate-slide-right">
+                            <h4 class="text-primary mb-4 animate-bounce animate-delay-2">
+                                <i class="fas fa-briefcase me-3"></i>Professional Information
+                            </h4>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-3">
+                                    <div class="mb-3">
+                                        <label for="{{ form.company_name.id_for_label }}" class="form-label fw-bold">Company Name</label>
+                                        {{ form.company_name }}
+                                        {% if form.company_name.errors %}
+                                            <div class="text-danger mt-1">{{ form.company_name.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-3">
+                                    <div class="mb-3">
+                                        <label for="{{ form.company_website.id_for_label }}" class="form-label fw-bold">Company Website</label>
+                                        {{ form.company_website }}
+                                        {% if form.company_website.errors %}
+                                            <div class="text-danger mt-1">{{ form.company_website.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 animate-fade-in animate-delay-4">
+                                    <div class="mb-3">
+                                        <label for="{{ form.company_description.id_for_label }}" class="form-label fw-bold">Company Description</label>
+                                        {{ form.company_description }}
+                                        {% if form.company_description.errors %}
+                                            <div class="text-danger mt-1">{{ form.company_description.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Section -->
+                        <div class="section-card p-4 mb-5 animate-slide-left">
+                            <h4 class="text-primary mb-4 animate-bounce animate-delay-3">
+                                <i class="fas fa-cog me-3"></i>Settings & Preferences
+                            </h4>
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-4">
+                                    <div class="mb-3">
+                                        <label for="{{ form.profile_picture.id_for_label }}" class="form-label fw-bold">Profile Picture</label>
+                                        {{ form.profile_picture }}
+                                        {% if form.profile_picture.errors %}
+                                            <div class="text-danger mt-1">{{ form.profile_picture.errors }}</div>
+                                        {% endif %}
+                                        {% if profile.profile_picture %}
+                                            <div class="mt-3 animate-bounce animate-delay-5">
+                                                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="max-width: 100px; border: 3px solid #667eea;">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-4">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Preferences</label>
+                                        <div class="form-check mb-3 animate-fade-in animate-delay-5">
+                                            {{ form.email_notifications }}
+                                            <label for="{{ form.email_notifications.id_for_label }}" class="form-check-label fw-semibold">
+                                                <i class="fas fa-envelope me-2 text-primary"></i>Email Notifications
+                                            </label>
+                                        </div>
+                                        <div class="form-check animate-fade-in animate-delay-5">
+                                            {{ form.profile_visibility }}
+                                            <label for="{{ form.profile_visibility.id_for_label }}" class="form-check-label fw-semibold">
+                                                <i class="fas fa-eye me-2 text-primary"></i>Profile Visibility (Public/Private)
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center animate-fade-in animate-delay-5">
+                            <button type="submit" class="btn btn-premium btn-lg px-5 py-3">
+                                <i class="fas fa-save me-2"></i>Save Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<style>
+/* Premium Animated View Profile Page Styles */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.premium-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.premium-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.gradient-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px 18px 0 0;
+}
+
+.gradient-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d4af37;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar {
+    animation: bounceIn 0.8s ease-out;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+    animation: pulse 2s infinite;
+}
+
+.btn-premium {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+    left: 100%;
+}
+
+.btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-slide-right {
+    animation: slideInRight 0.8s ease-out;
+}
+
+.animate-bounce {
+    animation: bounceIn 0.8s ease-out;
+}
+
+.animate-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.4s;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.6s;
+}
+
+.animate-delay-4 {
+    animation-delay: 0.8s;
+}
+
+.animate-delay-5 {
+    animation-delay: 1s;
+}
+
+.social-btn {
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+<div class="container-fluid py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="premium-card">
+                <div class="gradient-header text-white text-center py-5 position-relative">
+                    <div class="position-relative z-index-1">
+                        <h1 class="mb-3 animate-bounce">
+                            <i class="fas fa-user me-3"></i>My Profile
+                        </h1>
+                        <p class="mb-0 fs-5 animate-bounce animate-delay-1">View and manage your personal information</p>
+                    </div>
+                </div>
+                <div class="card-body p-5">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            {% if profile.profile_picture %}
+                                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle mb-3 profile-avatar" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #667eea; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                            {% else %}
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3 profile-avatar" style="width: 150px; height: 150px; border: 4px solid #667eea; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+                                    <i class="fas fa-user fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <h4 class="text-primary animate-bounce animate-delay-2">{{ profile.full_name|default:request.user.get_full_name|default:request.user.username }}</h4>
+                            <p class="text-muted mb-2 animate-fade-in animate-delay-3">{{ request.user.email }}</p>
+                            <p class="badge bg-primary animate-fade-in animate-delay-4">{{ request.user.role|title }}</p>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6 animate-slide-left animate-delay-2">
+                                    <div class="info-card p-3 mb-3">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-phone me-2"></i>Contact Information</h6>
+                                        <p class="mb-2"><strong>Phone:</strong> {{ profile.phone|default:"Not provided" }}</p>
+                                        <p class="mb-2"><strong>Address:</strong> {{ profile.address|default:"Not provided" }}</p>
+                                        {% if profile.date_of_birth %}
+                                            <p class="mb-0"><strong>Date of Birth:</strong> {{ profile.date_of_birth|date:"M d, Y" }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 animate-slide-right animate-delay-2">
+                                    <div class="info-card p-3 mb-3">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>Professional Info</h6>
+                                        {% if profile.company_name %}
+                                            <p class="mb-2"><strong>Company:</strong> {{ profile.company_name }}</p>
+                                        {% endif %}
+                                        {% if profile.bio %}
+                                            <p class="mb-0"><strong>Bio:</strong> {{ profile.bio|truncatechars:100 }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 animate-slide-left animate-delay-3">
+                                <div class="col-12">
+                                    <div class="info-card p-3 mb-3">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-link me-2"></i>Social Links</h6>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            {% if profile.linkedin_url %}
+                                                <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-outline-primary btn-sm social-btn">
+                                                    <i class="fab fa-linkedin me-1"></i>LinkedIn
+                                                </a>
+                                            {% endif %}
+                                            {% if profile.github_url %}
+                                                <a href="{{ profile.github_url }}" target="_blank" class="btn btn-outline-dark btn-sm social-btn">
+                                                    <i class="fab fa-github me-1"></i>GitHub
+                                                </a>
+                                            {% endif %}
+                                            {% if profile.portfolio_url %}
+                                                <a href="{{ profile.portfolio_url }}" target="_blank" class="btn btn-outline-info btn-sm social-btn">
+                                                    <i class="fas fa-globe me-1"></i>Portfolio
+                                                </a>
+                                            {% endif %}
+                                            {% if profile.company_website %}
+                                                <a href="{{ profile.company_website }}" target="_blank" class="btn btn-outline-success btn-sm social-btn">
+                                                    <i class="fas fa-building me-1"></i>Company
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 animate-slide-right animate-delay-4">
+                                <div class="col-12">
+                                    <div class="info-card p-3 mb-3">
+                                        <h6 class="text-primary mb-3"><i class="fas fa-cog me-2"></i>Settings</h6>
+                                        <div class="d-flex gap-3">
+                                            <span class="badge {% if profile.email_notifications %}bg-success{% else %}bg-secondary{% endif %} animate-fade-in animate-delay-5">
+                                                <i class="fas fa-envelope me-1"></i>Email Notifications {{ profile.email_notifications|yesno:"Enabled,Disabled" }}
+                                            </span>
+                                            <span class="badge {% if profile.profile_visibility %}bg-info{% else %}bg-warning{% endif %} animate-fade-in animate-delay-5">
+                                                <i class="fas fa-eye me-1"></i>Profile {{ profile.profile_visibility|yesno:"Public,Private" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4 animate-fade-in animate-delay-5">
+                        <div class="col-12 text-center">
+                            <a href="?edit=true" class="btn btn-premium btn-lg">
+                                <i class="fas fa-edit me-2"></i>Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - DevJobs{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --card-bg: rgba(26, 26, 26, 0.95);
+        --input-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    .login-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+        padding: 2rem 0;
+        position: relative;
+    }
+
+    /* Floating Shapes Background */
+    .shape {
+        position: absolute;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.6;
+        animation: floatShape 10s infinite alternate;
+    }
+
+    .shape-1 {
+        top: -10%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, var(--primary-gold), transparent);
+    }
+
+    .shape-2 {
+        bottom: -10%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #c0c0c0, transparent);
+        animation-delay: -5s;
+    }
+
+    @keyframes floatShape {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+
+        100% {
+            transform: translate(30px, 50px) rotate(10deg);
+        }
+    }
+
+    /* Main Card */
+    .login-card-wrapper {
+        display: flex;
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        width: 100%;
+        max-width: 1000px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        backdrop-filter: blur(20px);
+    }
+
+    /* Left Side: Branding */
+    .login-branding {
+        flex: 1;
+        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95)), url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-branding::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    }
+
+    .brand-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+    }
+
+    .brand-text {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2.5rem;
+    }
+
+    /* Right Side: Form */
+    .login-form-section {
+        flex: 1;
+        padding: 4rem;
+        background: rgba(30, 30, 30, 0.6);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        color: white;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+        color: var(--text-muted);
+    }
+
+    /* Floating Labels Styling Override */
+    .form-floating>.form-control {
+        background: var(--input-bg) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: var(--border-radius);
+    }
+
+    .form-floating>.form-control:focus {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    }
+
+    .form-floating>label {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-floating>.form-control:focus~label,
+    .form-floating>.form-control:not(:placeholder-shown)~label {
+        color: var(--primary-gold);
+        transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
+    }
+
+    /* Button */
+    .btn-login-premium {
+        background: var(--gradient-accent);
+        border: none;
+        height: 55px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        width: 100%;
+        border-radius: var(--border-radius);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-login-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-login-premium::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        transition: 0.6s;
+    }
+
+    .btn-login-premium:hover::after {
+        left: 100%;
+    }
+
+    /* Links */
+    .register-link {
+        text-align: center;
+        margin-top: 2rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .register-link a {
+        color: var(--primary-gold);
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+    }
+
+    .register-link a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--primary-gold);
+        transition: width 0.3s;
+    }
+
+    .register-link a:hover::after {
+        width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .login-card-wrapper {
+            flex-direction: column;
+            max-width: 500px;
+        }
+
+        .login-branding {
+            padding: 3rem;
+            text-align: center;
+            flex: 0 0 200px;
+        }
+
+        .brand-title {
+            font-size: 2.5rem;
+        }
+
+        .login-form-section {
+            padding: 2.5rem;
+        }
+    }
+</style>
+
+<div class="login-section">
+    <!-- Background Elements -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="login-card-wrapper animate-slide-in-up">
+        <!-- Left Column: Branding -->
+        <div class="login-branding">
+            <div class="brand-content">
+                <h1 class="brand-title">Welcome Back</h1>
+                <p class="brand-text">Access your dashboard and continue your journey.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: Form -->
+        <div class="login-form-section">
+            <div class="form-header">
+                <h2>Log In</h2>
+                <p>Enter your credentials to access your account</p>
+            </div>
+
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="form-floating mb-3 animate-fade-in-up animate-delay-1">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                        required>
+                    <label for="username">
+                        <i class="fas fa-user me-2"></i>Username
+                    </label>
+                </div>
+
+                <!-- Password -->
+                <div class="form-floating mb-4 animate-fade-in-up animate-delay-2">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                        required>
+                    <label for="password">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-login-premium animate-fade-in-up animate-delay-3">
+                    <span>Log In</span>
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </form>
+
+            <div class="register-link animate-fade-in-up animate-delay-3">
+                Don't have an account? <a href="{% url 'job_resume:register' %}">Register Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

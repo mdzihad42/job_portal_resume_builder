@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+
+{% block title %}Join DevJobs - Premium Career Portal{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --card-bg: rgba(26, 26, 26, 0.95);
+        --input-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    .register-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 85vh;
+        padding: 2rem 0;
+        position: relative;
+    }
+
+    /* Floating Shapes Background */
+    .shape {
+        position: absolute;
+        filter: blur(80px);
+        z-index: 0;
+        opacity: 0.6;
+        animation: floatShape 10s infinite alternate;
+    }
+    .shape-1 {
+        top: -10%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, var(--primary-gold), transparent);
+    }
+    .shape-2 {
+        bottom: -10%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #c0c0c0, transparent);
+        animation-delay: -5s;
+    }
+    @keyframes floatShape {
+        0% { transform: translate(0, 0) rotate(0deg); }
+        100% { transform: translate(30px, 50px) rotate(10deg); }
+    }
+
+    /* Main Card */
+    .register-card-wrapper {
+        display: flex;
+        background: var(--card-bg);
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        width: 100%;
+        max-width: 1100px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        backdrop-filter: blur(20px);
+    }
+
+    /* Left Side: Branding */
+    .register-branding {
+        flex: 1;
+        background: linear-gradient(135deg, rgba(20,20,20,0.95), rgba(40,40,40,0.95)), url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .register-branding::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+    }
+
+    .brand-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: var(--gradient-accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+    }
+
+    .brand-text {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 2.5rem;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+        color: white;
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideInRight 0.5s forwards;
+    }
+
+    .feature-item:nth-child(1) { animation-delay: 0.2s; }
+    .feature-item:nth-child(2) { animation-delay: 0.4s; }
+    .feature-item:nth-child(3) { animation-delay: 0.6s; }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(212, 175, 55, 0.2);
+        border: 1px solid var(--primary-gold);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        color: var(--primary-gold);
+        flex-shrink: 0;
+    }
+
+    /* Right Side: Form */
+    .register-form-section {
+        flex: 1;
+        padding: 4rem;
+        background: rgba(30, 30, 30, 0.6);
+    }
+
+    .form-header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        color: white;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-header p {
+        color: var(--text-muted);
+    }
+
+    /* Floating Labels Styling Override */
+    .form-floating > .form-control,
+    .form-floating > .form-select {
+        background: var(--input-bg) !important;
+        border: 1px solid rgba(255,255,255,0.1);
+        color: white;
+        border-radius: var(--border-radius);
+        height: 55px; /* Fix height for select */
+    }
+
+    .form-floating > .form-control:focus,
+    .form-floating > .form-select:focus {
+        background: rgba(255,255,255,0.1) !important;
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+    }
+
+    .form-floating > label {
+        color: rgba(255,255,255,0.5);
+    }
+
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label,
+    .form-floating > .form-select ~ label {
+        color: var(--primary-gold);
+        transform: scale(0.85) translateY(-0.75rem) translateX(0.15rem);
+    }
+    
+    /* Ensure select label floats correctly */
+    .form-floating > .form-select {
+        padding-top: 1.625rem;
+        padding-bottom: 0.625rem;
+    }
+
+    /* Button */
+    .btn-register-premium {
+        background: var(--gradient-accent);
+        border: none;
+        height: 55px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        width: 100%;
+        border-radius: var(--border-radius);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-register-premium:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-register-premium::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: 0.6s;
+    }
+    
+    .btn-register-premium:hover::after {
+        left: 100%;
+    }
+
+    /* Links */
+    .login-link {
+        text-align: center;
+        margin-top: 2rem;
+        color: rgba(255,255,255,0.6);
+    }
+    
+    .login-link a {
+        color: var(--primary-gold);
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+    }
+    
+    .login-link a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px; left: 0;
+        width: 0; height: 1px;
+        background: var(--primary-gold);
+        transition: width 0.3s;
+    }
+    
+    .login-link a:hover::after {
+        width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .register-card-wrapper {
+            flex-direction: column;
+            max-width: 600px;
+        }
+        .register-branding {
+            padding: 3rem;
+            text-align: center;
+        }
+        .register-branding .feature-list {
+            display: none;
+        }
+        .brand-title {
+            font-size: 2.5rem;
+        }
+        .register-form-section {
+            padding: 2.5rem;
+        }
+    }
+</style>
+
+<div class="register-section">
+    <!-- Background Elements -->
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="register-card-wrapper animate-slide-in-up">
+        <!-- Left Column: Branding -->
+        <div class="register-branding">
+            <div class="brand-content">
+                <h1 class="brand-title">Start Your Journey</h1>
+                <p class="brand-text">Join thousands of developers and employers building the future of tech.</p>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                        <span>Fast-track your career growth</span>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+                        <span>Connect with top tech companies</span>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-file-invoice"></i></div>
+                        <span>Build professional resumes instantly</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Right Column: Form -->
+        <div class="register-form-section">
+            <div class="form-header">
+                <h2>Create Account</h2>
+                <p>Fill in your details to get started</p>
+            </div>
+
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Use standard hidden fields if any -->
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+
+                <!-- Username with Floating Label -->
+                <div class="form-floating mb-3 animate-fade-in-up animate-delay-1">
+                    {{ form.username }}
+                    <label for="{{ form.username.id_for_label }}">
+                        <i class="fas fa-user me-2"></i>{{ form.username.label }}
+                    </label>
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1 ps-2">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Email with Floating Label -->
+                <div class="form-floating mb-3 animate-fade-in-up animate-delay-2">
+                    {{ form.email }}
+                    <label for="{{ form.email.id_for_label }}">
+                        <i class="fas fa-envelope me-2"></i>{{ form.email.label }}
+                    </label>
+                    {% if form.email.errors %}
+                        <div class="text-danger small mt-1 ps-2">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Role Selection with Floating Label -->
+                <div class="form-floating mb-3 animate-fade-in-up animate-delay-3">
+                    {{ form.role }}
+                    <label for="{{ form.role.id_for_label }}">
+                        <i class="fas fa-briefcase me-2"></i>{{ form.role.label }}
+                    </label>
+                    {% if form.role.errors %}
+                        <div class="text-danger small mt-1 ps-2">{{ form.role.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Password 1 -->
+                <div class="form-floating mb-3 animate-fade-in-up animate-delay-4">
+                    {{ form.password1 }}
+                    <label for="{{ form.password1.id_for_label }}">
+                        <i class="fas fa-lock me-2"></i>{{ form.password1.label }}
+                    </label>
+                    {% if form.password1.errors %}
+                        <div class="text-danger small mt-1 ps-2">{{ form.password1.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Password 2 -->
+                <div class="form-floating mb-4 animate-fade-in-up animate-delay-5">
+                    {{ form.password2 }}
+                    <label for="{{ form.password2.id_for_label }}">
+                        <i class="fas fa-lock me-2"></i>Confirm Password
+                    </label>
+                    {% if form.password2.errors %}
+                        <div class="text-danger small mt-1 ps-2">{{ form.password2.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-register-premium animate-fade-in-up animate-delay-5">
+                    <span>Register Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="login-link animate-fade-in-up animate-delay-5">
+                Already have an account? <a href="{% url 'job_resume:login' %}">Log In</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Simple script to add valid/invalid classes for Bootstrap styling if needed
+    // And to ensure inputs have 'form-control' or 'form-select' class
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.tagName === 'SELECT') {
+                input.classList.add('form-select');
+            } else {
+                input.classList.add('form-control');
+            }
+            input.placeholder = ' '; // Required for floating labels to work
+        });
+    });
+</script>
+{% endblock %}
