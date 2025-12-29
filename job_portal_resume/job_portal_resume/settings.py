@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n3h2f0fq#+_!ntpuqf$huld)8e#c*#+i%e=)z451+ur6acnw8#
 AUTH_USER_MODEL = 'job_resume.User'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
